@@ -47,7 +47,5 @@ class Category:
         total = str(self.get_balance())[:7]
         return f'{title}{items}Total: {total}'
 
-
 def create_spend_chart(categories):
-    create_spend_chart = None
     return create_spend_chart
