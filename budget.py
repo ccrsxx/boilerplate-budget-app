@@ -5,19 +5,21 @@ class Category:
         self.ledger = []
         print(self.category, 'created')
 
-    def deposit(self, amount, description=None):
+    def deposit(self, amount, description=''):
         self.ledger.append({"amount": amount, "description": description})
+        self.balance = self.ledger[0]['amount']
         print(f'{self.ledger[0]["amount"]}$ deposited {self.ledger[0]["description"]!r}')
 
     def check_funds(self, amount):
-        if self.ledger[0]['amount'] >= amount:
+        if self.balance >= amount:
             return True
         else:
             return False
 
-    def withdraw(self, amount, description=None):
+    def withdraw(self, amount, description=''):
         if self.check_funds(amount):
-            self.ledger[0]['amount'] -= amount
+            self.balance -= amount
+            self.ledger.append({"amount": '-' + str(amount), "description": description})
             print(f'{"%.2f" % self.ledger[0]["amount"]}$ left -{amount}$ {description!r}')
             return True
         else:
@@ -25,8 +27,7 @@ class Category:
             return False
 
     def get_balance(self):
-        print(f'{self.ledger[0]["amount"]}$ {self.category}\'s money now')
-        return self.ledger[0]['amount']
+        return self.balance
 
     def transfer(self, amount, category):
         if self.check_funds(amount):
@@ -36,35 +37,46 @@ class Category:
         else:
             print(f'Not enough money to transfer to {category.category}')
             return False
-        
 
-# food = Category("Food")
-# food.deposit(1000, "initial deposit")
-# food.withdraw(10.15, "groceries")
-# food.withdraw(15.89, "restaurant and more food for dessert")
-# print(food.get_balance())
-# clothing = Category("Clothing")
-# food.transfer(50, clothing)
-# clothing.withdraw(25.55)
-# clothing.withdraw(100)
-# auto = Category("Auto")
-# auto.deposit(1000, "initial deposit")
-# auto.withdraw(15)
+    def __str__(self):
+        title = self.category.center(30, '*')
+        items = ''
+        for item in self.ledger:
+            amount = item['amount']
+            desc = item['description']
+            items += f'{desc[:23]:23}{str(amount)[:7].rjust(7)}\n'
+        total = str(self.get_balance())[:7]
+        return f'{title}\n{items}Total: {total}'
 
-emilia = Category('Emilia')
-emilia.deposit(100, 'by emilia')
-emilia.withdraw(40, 'buying keyboard')
-emilia.get_balance()
+food = Category("Food")
+food.deposit(1000, "initial deposit")
+food.withdraw(10.15, "groceries")
+food.withdraw(15.89, "restaurant and more food for dessert")
+print(food.get_balance())
+clothing = Category("Clothing")
+food.transfer(50, clothing)
+clothing.withdraw(25.55)
+clothing.withdraw(100)
+auto = Category("Auto")
+auto.deposit(1000, "initial deposit")
+auto.withdraw(15)
 
-rem = Category('Rem')
-emilia.transfer(60, rem)
+print(food)
+# print(clothing)
+# print(auto)
 
-emilia.get_balance()
-rem.get_balance()
+# emilia = Category('Emilia')
+# emilia.deposit(200, 'by emilia')
+# emilia.withdraw(69.69, 'buying keyboard')
+# emilia.withdraw(20, 'buying novel')
+# emilia.withdraw(25, 'get a vaccine')
+# emilia.get_balance()
 
-# for i in waifu.ledger:
-#     print(i['description'], i['amount'])
-# print('deposit', waifu.ledger[0]['amount'])
-# print('desc', waifu.ledger[0]['description'])
+# rem = Category('Rem')
+# emilia.transfer(60, rem)
 
-# print('deposit', waifu.ledger[0]['amount'])
+# emilia.get_balance()
+# rem.get_balance()
+
+# print(emilia)
+# print(rem)
