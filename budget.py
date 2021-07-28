@@ -3,6 +3,7 @@ class Category:
     def __init__(self, category):
         self.category = category
         self.ledger = []
+        self.spent = 0
 
     def deposit(self, amount, description=''):
         if not self.ledger:
@@ -19,6 +20,7 @@ class Category:
 
     def withdraw(self, amount, description=''):
         if self.check_funds(amount):
+            self.spent += amount
             self.balance -= amount
             self.ledger.append({"amount": -amount, "description": description})
             return True
@@ -34,7 +36,6 @@ class Category:
             category.deposit(amount, f'Transfer from {self.category}')
             return True
         else:
-            print(f'Not enough money to transfer to {category.category}')
             return False
 
     def __str__(self):
@@ -44,8 +45,29 @@ class Category:
             desc = item['description'][:23]
             amount = f'{item["amount"]:.2f}'[:7]
             items += f'{desc:<23}{amount:>7}\n'
-        total = str(self.get_balance())[:7]
+        total = f'{self.get_balance():.2f}'[:7]
         return f'{title}{items}Total: {total}'
 
+def spent_percentage(categories):
+    all_percentage = {}
+    all_spent = sum([cat.spent for cat in categories])
+    for cat in categories:
+        val = round_ten(cat.spent / all_spent * 100)
+        all_percentage[cat.category] = val
+    return all_percentage
+
+def round_ten(num):
+    if num % 10 < 5:
+        return int(num / 10) * 10
+    else:
+        return int((num + 10) / 10) * 10
+
 def create_spend_chart(categories):
-    return create_spend_chart
+    up = 'Percentage spent by category\n'
+    
+
+
+
+
+
+    return up
