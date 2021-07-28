@@ -25,7 +25,6 @@ class Category:
             self.ledger.append({"amount": -amount, "description": description})
             return True
         else:
-            print(f'Not enough money to buy {description}')
             return False
 
     def get_balance(self):
@@ -37,7 +36,6 @@ class Category:
             category.deposit(amount, f'Transfer from {self.category}')
             return True
         else:
-            print(f'Not enough money to transfer to {category.category}')
             return False
 
     def __str__(self):
@@ -90,5 +88,5 @@ def create_spend_chart(categories):
                 val = ''
             end_down += f'{val:^3}'
         down += f'{"":4}{first_down}{end_down}\n'
-    chart = f'{up}{mid}{mid_line}{down}'
+    chart = f'{up}{mid}{mid_line}{down.rstrip}'
     return chart
