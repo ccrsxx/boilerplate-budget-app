@@ -78,8 +78,8 @@ def create_spend_chart(categories):
             end_mid += f'{val:^3}'
         mid += (f'{first_mid}{end_mid} \n')
     mid_line = f'{down_space}{"-" * (len(categories) * 3 + 1)}\n'
-    words_array = [i.split() for i in all_percentage]
-    max_word = max([len(i) for i in all_percentage])
+    words_array = [i.category.split() for i in categories]
+    max_word = max([len(i.category) for i in categories])
     for i in range(max_word):
         end_down = ''
         for word in words_array:
