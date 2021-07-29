@@ -64,7 +64,8 @@ def spent_percentage(categories):
 def create_spend_chart(categories):
     up = 'Percentage spent by category\n'
     mid = first_mid = end_mid =''
-    down = first_down = end_down = ''
+    down = end_down = ''
+    down_space = f'"":4'
     all_percentage = spent_percentage(categories)
     for i in reversed(range(0, 101, 10)):
         first_mid = f'{i:>3}|'
@@ -76,7 +77,7 @@ def create_spend_chart(categories):
                 val = ''
             end_mid += f'{val:^3}'
         mid += (f'{first_mid}{end_mid} \n')
-    mid_line = f'{"":4}{"-" * (len(categories) * 3 + 1)}\n'
+    mid_line = f'{down_space}{"-" * (len(categories) * 3 + 1)}\n'
     words_array = [i.split() for i in all_percentage]
     max_word = max([len(i) for i in all_percentage])
     for i in range(max_word):
@@ -88,8 +89,8 @@ def create_spend_chart(categories):
                 val = ''
             end_down += f'{val:^3}'
         if i < max_word - 1:
-            down += f'{"":4}{first_down}{end_down} \n'
+            down += f'{down_space}{end_down} \n'
         else:
-            down += f'{"":4}{first_down}{end_down} '
+            down += f'{down_space}{end_down} '
     chart = f'{up}{mid}{mid_line}{down}'
     return chart
