@@ -41,31 +41,38 @@ class Category:
     def __str__(self):
         title = f'{self.category:*^30}\n'
         items = ''
+
         for item in self.ledger:
             desc = item['description'][:23]
             amount = f'{item["amount"]:.2f}'[:7]
             items += f'{desc:<23}{amount:>7}\n'
+
         total = f'{self.get_balance():.2f}'[:7]
         object = f'{title}{items}Total: {total}'
+
         return object
 
 def truncate(num, decimals=0):
     multiplier = 10 ** decimals
+
     return int(num * multiplier) / multiplier
 
 def spent_percentage(categories):
     all_percentage = {}
     all_spent = sum([cat.spent for cat in categories])
+
     for cat in categories:
         val = truncate((cat.spent / all_spent * 100), -1)
         all_percentage[cat.category] = val
+
     return all_percentage
 
 def create_spend_chart(categories):
+    up = 'Percentage spent by category\n'
     mid = first_mid = end_mid =''
     down = first_down = end_down = ''
     all_percentage = spent_percentage(categories)
-    up = 'Percentage spent by category\n'
+
     for i in reversed(range(0, 101, 10)):
         first_mid = f'{i:>3}|'
         end_mid = ''
@@ -75,10 +82,12 @@ def create_spend_chart(categories):
             else:
                 val = ''
             end_mid += f'{val:^3}'
-        mid += (f'{first_mid}{end_mid}\n')
+        mid += (f'{first_mid}{end_mid} \n')
+
     mid_line = f'{"":4}{"-" * (len(categories) * 3 + 1)}\n'
     words_array = [i.split() for i in all_percentage]
     max_word = max([len(i) for i in all_percentage])
+
     for i in range(max_word):
         end_down = ''
         for word in words_array:
@@ -87,6 +96,11 @@ def create_spend_chart(categories):
             else:
                 val = ''
             end_down += f'{val:^3}'
-        down += f'{"":4}{first_down}{end_down}\n'
-    chart = f'{up}{mid}{mid_line}{down.rstrip}'
+        if i < max_word - 1:
+            down += f'{"":4}{first_down}{end_down} \n'
+        else:
+            down += f'{"":4}{first_down}{end_down} '
+
+    chart = f'{up}{mid}{mid_line}{down}'
+
     return chart
