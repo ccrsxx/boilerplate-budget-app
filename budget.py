@@ -65,7 +65,7 @@ def create_spend_chart(categories):
     up = 'Percentage spent by category\n'
     mid = first_mid = end_mid =''
     down = end_down = ''
-    down_space = f'"":4'
+    down_space = f'{"":4}'
     all_percentage = spent_percentage(categories)
     for i in reversed(range(0, 101, 10)):
         first_mid = f'{i:>3}|'
