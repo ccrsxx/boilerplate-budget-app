@@ -15,8 +15,7 @@ class Category:
     def check_funds(self, amount):
         if self.balance >= amount:
             return True
-        else:
-            return False
+        return False
 
     def withdraw(self, amount, description=''):
         if self.check_funds(amount):
@@ -24,8 +23,7 @@ class Category:
             self.balance -= amount
             self.ledger.append({"amount": -amount, "description": description})
             return True
-        else:
-            return False
+        return False
 
     def get_balance(self):
         return self.balance
@@ -35,8 +33,7 @@ class Category:
             self.withdraw(amount, f'Transfer to {category.category}')
             category.deposit(amount, f'Transfer from {self.category}')
             return True
-        else:
-            return False
+        return False
 
     def __str__(self):
         title = f'{self.category:*^30}\n'
