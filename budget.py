@@ -43,8 +43,7 @@ class Category:
             amount = f'{item["amount"]:.2f}'[:7]
             items += f'{desc:<23}{amount:>7}\n'
         total = f'{self.get_balance():.2f}'[:7]
-        object = f'{title}{items}Total: {total}'
-        return object
+        return f'{title}{items}Total: {total}'
 
 def truncate(num, decimals=0):
     multiplier = 10 ** decimals
@@ -89,5 +88,4 @@ def create_spend_chart(categories):
             down += f'{down_space}{end_down} \n'
         else:
             down += f'{down_space}{end_down} '
-    chart = f'{up}{mid}{mid_line}{down}'
-    return chart
+    return f'{up}{mid}{mid_line}{down}'
